@@ -36,11 +36,12 @@ public class SubItems {
 			throw new ItemNotFoundException("Item not found");
 		}
 	}
-	public void delete(Item item) throws ItemNotFoundException {
+	public void delete(Item item, int mount) throws ItemNotFoundException {
 		try {
-		if(subItem.contains(item)) {
-			subItem.remove(item);
-		}}
+			for(int y=0;y<mount;y++) {
+				if(subItem.contains(item)) {
+					subItem.remove(item);
+		}}}
 		catch(NullPointerException y) {
 			throw new ItemNotFoundException("Item not found");
 		}

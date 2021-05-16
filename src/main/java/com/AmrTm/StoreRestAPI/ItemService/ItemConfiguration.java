@@ -2,9 +2,7 @@ package com.AmrTm.StoreRestAPI.ItemService;
 
 import java.util.LinkedList;
 import java.util.List;
-import java.util.function.Consumer;
 import java.util.function.Predicate;
-import java.util.stream.Collectors;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -45,7 +43,7 @@ public class ItemConfiguration {
 			log.info("Adding sub item: "+items.getSubName()+" succesfully");
 		}
 	}
-	public void addItemSubItems(SubItems subitem, Item item) {
+	public void addItemSubItems(SubItems subitem, Item item, int mount) {
 		try {
 		subItems.stream().filter(new Predicate<SubItems>() {
 			@Override
@@ -54,13 +52,17 @@ public class ItemConfiguration {
 					return true;
 				}
 				return false;
-			}}).forEach(w -> w.addItem(item));
-			logData.saveLog("Adding item: "+item.getName()+" from sub item: "+subitem.getSubName());
-			log.info("Adding sub item: "+item.getName()+" from sub item: "+subitem.getSubName()+" succesfully");
+			}}).forEach(w -> addingItemsToSubItem(w,item,mount));
+			logData.saveLog("Adding item: "+item.getName()+" mount "+mount+" from sub item: "+subitem.getSubName());
+			log.info("Adding sub item: "+item.getName()+" mount "+mount+" from sub item: "+subitem.getSubName()+" succesfully");
 		}
 		catch(NullPointerException e) {
-			log.error("Adding sub item: "+item.getName()+" from sub item: "+subitem.getSubName()+" didn`t succesfully",new ItemNotFoundException("sub item not found"));
+			log.error("Adding sub item: "+item.getName()+" mount "+mount+" from sub item: "+subitem.getSubName()+" didn`t succesfully",new ItemNotFoundException("sub item not found"));
 		}
+	}
+	public void addingItemsToSubItem(SubItems r,Item item, int mount) {
+		for(int y = 0;y<mount;y++) 
+			r.addItem(item);
 	}
 //	public void modifyItem(Item item, String name, Long cost) throws ItemNotFoundException {
 //		if(items.contains(item)) {
@@ -132,7 +134,7 @@ public class ItemConfiguration {
 			log.error("Remove sub item: "+subItem.getSubName()+" didn`t succesfully",new NullPointerException("Sub item not found"));
 		}
 	}
-	public void deleteItemSubItem(SubItems subItem, Item item) {
+	public void deleteItemSubItem(SubItems subItem, Item item, int mount) {
 		try {
 			subItems.stream().filter(new Predicate<SubItems>() {
 				@Override
@@ -142,7 +144,7 @@ public class ItemConfiguration {
 					return false;
 				}}).forEach(y -> {
 				try {
-					y.delete(item);
+					y.delete(item, mount);
 					logData.saveLog("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName());
 					log.info("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName()+" succesfully");
 				} catch (ItemNotFoundException e) {
@@ -153,5 +155,18 @@ public class ItemConfiguration {
 		}catch(NullPointerException i) {
 			log.error("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName()+" didn`t succesfully", new NullPointerException("Sub item not found"));
 		}
+	}
+	public List<SubItems> getSubItems() {
+		return subItems;
+	}
+	
+	public SubItems getSubItem(String name, ItemType itemType) throws NullPointerException {
+		return subItems.stream().filter(new Predicate<SubItems>() {
+			@Override
+			public boolean test(SubItems t) {
+				if(t.getItemType()==itemType && t.getSubName() == name)
+					return true;
+				return false;
+			}}).findFirst().get();
 	}
 }
