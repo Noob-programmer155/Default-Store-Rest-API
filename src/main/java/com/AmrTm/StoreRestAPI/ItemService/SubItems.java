@@ -6,12 +6,18 @@ import java.util.function.Consumer;
 
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.ExceptionController.ItemNotFoundException;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
+@JsonIgnoreProperties({"subItem"})
 public class SubItems {
 	private List<Item> subItem = new LinkedList<Item>();
 //	private List<SubItems> subItems = new LinkedList<SubItems>();
 	private String subName;
 	private ItemType itemType;
+	
+	public SubItems() {
+		super();
+	}
 	public SubItems(String name, ItemType itemType) {
 		super();
 		this.subName = name;
@@ -46,6 +52,11 @@ public class SubItems {
 			throw new ItemNotFoundException("Item not found");
 		}
 	}
+	
+	public Item getItem(String id) {
+		return subItem.stream().filter(u -> u.getId() == id).findFirst().get();
+	}
+	
 	public String getSubName() {
 		return subName;
 	}
@@ -58,7 +69,7 @@ public class SubItems {
 	public void setSubItem(List<Item> subItem) {
 		this.subItem = subItem;
 	}
-//	public List<SubItems> getSubItems() {
+	//	public List<SubItems> getSubItems() {
 //		return subItems;
 //	}
 //	public void setSubItems(List<SubItems> subItems) {

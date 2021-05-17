@@ -6,6 +6,10 @@ public class Item {
 	private String id;
 	private String name;
 	private double cost;
+	
+	public Item() {
+		super();
+	}
 	public Item(String name, Long cost) {
 		super();
 		this.id = UUID.randomUUID().toString();

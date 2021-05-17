@@ -37,12 +37,11 @@ public class UserConfiguration {
 	}
 	public void modifyCountIn(User user) {
 		try {
-		if(users.contains(user)) {
 			users.stream().filter(e -> e.getCodeUser() == user.getCodeUser()).forEach(e -> e.setCountInStore(e.getCountInStore()+1));
-			log.info("modify user "+user.getCodeUser()+" with coint in store: "+user.getCountInStore()+" succesfully");
-		}}
+			log.info("modify user "+user.getCodeUser()+" with count in store: "+user.getCountInStore()+" succesfully");
+		}
 		catch(NullPointerException e) {
-			log.error("modify user "+user.getCodeUser()+" with coint in store: "+user.getCountInStore()+" didn`t succesfully",new UsernameNotFoundException("Username not found"));
+			log.error("modify user "+user.getCodeUser()+" with count in store: "+user.getCountInStore()+" didn`t succesfully",new UsernameNotFoundException("Username not found"));
 		}
 	}
 	public void delete(User user) {

@@ -28,6 +28,9 @@ public class User {
 	public void setUsername(String username) {
 		this.username = username;
 	}
+	public void setCodeUser(String codeUser) {
+		this.codeUser = codeUser;
+	}
 	public String getCodeUser() {
 		return codeUser;
 	}

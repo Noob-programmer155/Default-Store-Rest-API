@@ -145,8 +145,8 @@ public class ItemConfiguration {
 				}}).forEach(y -> {
 				try {
 					y.delete(item, mount);
-					logData.saveLog("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName());
-					log.info("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName()+" succesfully");
+					logData.saveLog("Remove item: "+subItem.getSubName()+" mount "+mount+" from sub item: "+subItem.getSubName());
+					log.info("Remove item: "+subItem.getSubName()+" mount "+mount+" from sub item: "+subItem.getSubName()+" succesfully");
 				} catch (ItemNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
@@ -168,5 +168,9 @@ public class ItemConfiguration {
 					return true;
 				return false;
 			}}).findFirst().get();
+	}
+	
+	public Item getItemSubItem(SubItems subItem, String id) {
+		return subItem.getItem(id);
 	}
 }
