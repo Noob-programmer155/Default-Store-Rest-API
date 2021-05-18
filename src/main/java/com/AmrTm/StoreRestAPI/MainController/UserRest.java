@@ -11,7 +11,6 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -25,16 +24,16 @@ import com.AmrTm.StoreRestAPI.UserService.UserConfiguration;
 public class UserRest {
 	
 	@Autowired
-	private UserConfiguration userConfig;
+	private UserConfiguration userConfiguration;
 	
 	@GetMapping("/user")
 	public NavigableSet<User> getUsers(){
-		return userConfig.getUsers();
+		return userConfiguration.getUsers();
 	}
 	
 	@GetMapping("/user/{id}")
 	public EntityModel<User> getUser(@PathVariable String id){
-		EntityModel<User> model = EntityModel.of(userConfig.getUserByIdCode(id));
+		EntityModel<User> model = EntityModel.of(userConfiguration.getUserByIdCode(id));
 		WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(UserRest.class).getUsers());
 		model.add(link.withRel("all-users"));
 		return model;
@@ -42,22 +41,22 @@ public class UserRest {
 	
 	@PostMapping("/save")
 	public ResponseEntity<User> addUser(@RequestBody User user){
-		userConfig.save(user);
+		userConfiguration.save(user);
 		URI uri = ServletUriComponentsBuilder.fromCurrentRequest().path("/{id}").buildAndExpand(user.getCodeUser()).toUri();
 		return ResponseEntity.created(uri).build();
 	} 
 	
-	@PutMapping("/modify/{id}")
+	@GetMapping("/modify/{id}")
 	public ResponseEntity<User> modifyUser(@PathVariable String id){
-		User user = userConfig.getUserByIdCode(id);
-		userConfig.modifyCountIn(user);
+		User user = userConfiguration.getUserByIdCode(id);
+		userConfiguration.modifyCountIn(user);
 		return ResponseEntity.ok(user);
 	}
 	
 	@DeleteMapping("/delete/{id}")
 	public ResponseEntity<User> deleteUser(@PathVariable String id){
-		User user = userConfig.getUserByIdCode(id);
-		userConfig.delete(user);
+		User user = userConfiguration.getUserByIdCode(id);
+		userConfiguration.delete(user);
 		return ResponseEntity.ok(user);
 	}
 }

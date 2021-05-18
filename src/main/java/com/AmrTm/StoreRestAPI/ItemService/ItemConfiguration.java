@@ -2,6 +2,7 @@ package com.AmrTm.StoreRestAPI.ItemService;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 
 import org.apache.logging.log4j.LogManager;
@@ -77,7 +78,7 @@ public class ItemConfiguration {
 //			throw new ItemNotFoundException("Item not found");
 //		}
 //	}
-	public void modifySubItem(SubItems subItem, String replace) {
+	public void modifySubItem(SubItems subItem, String replace, ItemType tipeR) {
 		try {
 			subItems.stream().filter(new Predicate<SubItems>() {
 				@Override
@@ -85,7 +86,12 @@ public class ItemConfiguration {
 					if(t.getSubName() == subItem.getSubName() && t.getItemType() == subItem.getItemType())
 						return true;
 					return false;
-				}}).forEach(u -> u.setSubName(replace));
+				}}).forEach(new Consumer<SubItems>() {
+					@Override
+					public void accept(SubItems t) {
+						t.setSubName(replace);
+						t.setItemType(tipeR);
+					}});
 			logData.saveLog("Rename sub item: "+subItem.getSubName()+" to: "+replace);
 			log.info("Rename sub item: "+subItem.getSubName()+" to: "+replace+" succesfully");
 		}
