@@ -1,5 +1,7 @@
 package com.AmrTm.StoreRestAPI.Entity;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.UUID;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -13,6 +15,7 @@ public class User {
 	private String username;
 	private String codeUser;
 	private int countInStore;
+	private List<Item> purchaseInStore = new LinkedList<>();
 	
 	public User() {
 		super();
@@ -39,5 +42,17 @@ public class User {
 	}
 	public void setCountInStore(int countInStore) {
 		this.countInStore = countInStore;
+	}
+	public List<Item> getPurchaseInStore() {
+		return purchaseInStore;
+	}
+	public void setPurchaseInStore(Item purchaseInStore) {
+		try {
+			this.purchaseInStore.add(purchaseInStore);
+		}
+		catch(OutOfMemoryError e) {
+			this.purchaseInStore.remove(0);
+			setPurchaseInStore(purchaseInStore);
+		}
 	}
 }

@@ -24,14 +24,14 @@ public class FinancialServices {
 	private BigDecimal purchase = new BigDecimal(0.0);
 	private BigDecimal income = new BigDecimal(0.0);
 	
-	private HashMap<LocalDate,Finance> dataFinance;
+	private HashMap<LocalDate,Finance> dataFinance = new HashMap<>();
 	
-	public void income(double in) {
-		income.add(BigDecimal.valueOf(in));
+	public void income(BigDecimal in) {
+		income.add(in);
 	}
 	
-	public void expense(double expense) {
-		purchase.add(BigDecimal.valueOf(expense));
+	public void expenses(BigDecimal expense) {
+		purchase.add(expense);
 	}
 	
 	public String profitNLoss() {
@@ -46,12 +46,15 @@ public class FinancialServices {
 			return "no income";
 	}
 	
-	public void report() {
+	public Finance report() {
 		BigDecimal mount = saveAmountMoney();
 		Finance finance = new Finance(mount,purchase,income,profitNLoss());
 		dataFinance.put(LocalDate.now(), finance);
 		logData.saveLog("Data Financial: income=> "+currencyConverter(income, "USD")+" | expense=> "+currencyConverter(purchase, "USD")+" | information=== "+profitNLoss());
 		log.info("Data Financial for ["+LocalDate.now()+"] success to saved | information=== "+profitNLoss());
+		income.multiply(BigDecimal.ZERO);
+		purchase.multiply(BigDecimal.ZERO);
+		return finance;
 	}
 	
 	public BigDecimal saveAmountMoney() {
@@ -61,7 +64,16 @@ public class FinancialServices {
 	public BigDecimal getAmountMoney() {
 		return amountMoney;
 	}
+
 	public String currencyConverter(BigDecimal Money, String currency) {
 		return Monetary.getDefaultAmountFactory().setCurrency(currency).setNumber(Money).create().toString();
+	}
+
+	public HashMap<LocalDate, Finance> getDataFinance() {
+		return dataFinance;
+	}
+
+	public void setDataFinance(HashMap<LocalDate, Finance> dataFinance) {
+		this.dataFinance = dataFinance;
 	}
 }

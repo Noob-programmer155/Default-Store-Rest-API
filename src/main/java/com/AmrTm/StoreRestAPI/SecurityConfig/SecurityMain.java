@@ -13,12 +13,15 @@ public class SecurityMain extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("Admin").password("Admin").roles("ADMIN","USER");
+		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("Admin").password("Admin").roles("ADMIN","STAFF");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		super.configure(http);
+		http.authorizeRequests().antMatchers("/financial/**","/users/**").hasAnyRole("ADMIN")
+			.antMatchers("/items").hasAnyRole("STAFF")
+			.anyRequest().denyAll()
+			.and()
+			.httpBasic();
 	}
-	
 }

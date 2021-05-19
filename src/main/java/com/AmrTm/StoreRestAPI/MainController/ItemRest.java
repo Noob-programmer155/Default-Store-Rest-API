@@ -30,7 +30,7 @@ public class ItemRest {
 	@Autowired
 	private ItemConfiguration itemConfiguration;
 	
-	@GetMapping("/subitem")
+	@GetMapping("/subitems")
 	public List<SubItems> getSubItem(){
 		return itemConfiguration.getSubItems();
 	}
@@ -40,7 +40,7 @@ public class ItemRest {
 		return itemConfiguration.getSubItem(name, ItemType.valueOf(type)).getSubItem();
 	}
 	
-	@GetMapping("/subitem/{name}/items/{id}")
+	@GetMapping("/subitem/{name}/item/{id}")
 	public EntityModel<Item> getItem(@PathVariable String name, @RequestAttribute String type, @PathVariable String id){
 		EntityModel<Item> item = EntityModel.of(itemConfiguration.getItemSubItem(itemConfiguration.getSubItem(name, ItemType.valueOf(type)), id));
 		WebMvcLinkBuilder link = WebMvcLinkBuilder.linkTo(WebMvcLinkBuilder.methodOn(ItemRest.class).getItems(name, type));
@@ -80,10 +80,9 @@ public class ItemRest {
 		return ResponseEntity.created(uri).build();
 	}
 	
-	@PutMapping("/modify/subitem/{name}/items/{id}")
-	public ResponseEntity<Item> modifyItemSubItem(@RequestBody Item item,@PathVariable String name, @PathVariable String id,@RequestAttribute String type){
+	@PutMapping("/modify/subitem/{name}/item")
+	public ResponseEntity<Item> modifyItemSubItem(@RequestBody Item item,@PathVariable String name ,@RequestAttribute String type){
 		SubItems subItem = itemConfiguration.getSubItem(name, ItemType.valueOf(type));
-		item.setId(id);
 		itemConfiguration.modifyItemSubItem(subItem, item);
 		return ResponseEntity.ok(item);
 	}
@@ -94,7 +93,7 @@ public class ItemRest {
 		return "sub item "+name+" with sub type "+type+" has been deleted";
 	}
 	
-	@DeleteMapping("/delete/subitem/{name}/items/{id}")
+	@DeleteMapping("/delete/subitem/{name}/item/{id}")
 	public String deleteItemSubItem(@PathVariable String name, @PathVariable String id,@RequestAttribute String type, @RequestAttribute int mount) {
 		SubItems sub = itemConfiguration.getSubItem(name, ItemType.valueOf(type));
 		itemConfiguration.deleteItemSubItem(sub, itemConfiguration.getItemSubItem(sub, id), mount);

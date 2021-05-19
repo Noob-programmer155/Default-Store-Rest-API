@@ -61,7 +61,7 @@ public class ItemConfiguration {
 			log.error("Adding sub item: "+item.getName()+" mount "+mount+" from sub item: "+subitem.getSubName()+" didn`t succesfully",new ItemNotFoundException("sub item not found"));
 		}
 	}
-	public void addingItemsToSubItem(SubItems r,Item item, int mount) {
+	private void addingItemsToSubItem(SubItems r,Item item, int mount) {
 		for(int y = 0;y<mount;y++) 
 			r.addItem(item);
 	}
@@ -113,7 +113,6 @@ public class ItemConfiguration {
 				logData.saveLog("Modify item: "+item.getId()+" from sub item: "+subItem.getSubName());
 				log.info("Modify item: "+item.getId()+" from sub item: "+subItem.getSubName()+" succesfully");
 			} catch (ItemNotFoundException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 		});}

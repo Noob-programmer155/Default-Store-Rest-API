@@ -11,11 +11,14 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
 import com.AmrTm.StoreRestAPI.UserService.UserConfiguration;
 
@@ -50,6 +53,13 @@ public class UserRest {
 	public ResponseEntity<User> modifyUser(@PathVariable String id){
 		User user = userConfiguration.getUserByIdCode(id);
 		userConfiguration.modifyCountIn(user);
+		return ResponseEntity.ok(user);
+	}
+	
+	@PutMapping("/modify/{id}/item")
+	public ResponseEntity<User> modifyUser(@RequestBody Item item, @PathVariable String id){
+		User user = userConfiguration.getUserByIdCode(id);
+		userConfiguration.modifyCountIn(user,item);
 		return ResponseEntity.ok(user);
 	}
 	

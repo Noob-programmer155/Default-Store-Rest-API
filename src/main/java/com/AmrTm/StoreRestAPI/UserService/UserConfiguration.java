@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
 import com.AmrTm.StoreRestAPI.ExceptionController.UsernameAlreadyExistException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
@@ -42,6 +43,15 @@ public class UserConfiguration {
 		}
 		catch(NullPointerException e) {
 			log.error("modify user "+user.getCodeUser()+" with count in store: "+user.getCountInStore()+" didn`t succesfully",new UsernameNotFoundException("Username not found"));
+		}
+	}
+	public void modifyCountIn(User user, Item item) {
+		try {
+			users.stream().filter(e -> e.getCodeUser() == user.getCodeUser()).forEach(e -> e.setPurchaseInStore(item));
+			log.info("modify user "+user.getCodeUser()+" with item purchased in store: "+item.getId()+" succesfully");
+		}
+		catch(NullPointerException e) {
+			log.error("modify user "+user.getCodeUser()+" with item purchased in store: "+item.getId()+" didn`t succesfully",new UsernameNotFoundException("Username not found"));
 		}
 	}
 	public void delete(User user) {
