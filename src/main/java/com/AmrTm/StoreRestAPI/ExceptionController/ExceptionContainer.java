@@ -21,6 +21,7 @@ public class ExceptionContainer {
 	
 	public ExceptionContainer(HttpStatus httpStatus, Throwable ex) {
 		super();
+		this.timestamp = LocalDateTime.now();
 		this.httpStatus = httpStatus;
 		this.message = "Unexpected Error";
 		this.debugMessage = ex.getLocalizedMessage();
@@ -28,9 +29,17 @@ public class ExceptionContainer {
 
 	public ExceptionContainer(HttpStatus httpStatus, String message, Throwable ex) {
 		super();
+		this.timestamp = LocalDateTime.now();
 		this.httpStatus = httpStatus;
 		this.message = message;
 		this.debugMessage = ex.getLocalizedMessage();
+	}
+
+	public ExceptionContainer(HttpStatus httpStatus , String message) {
+		super();
+		this.timestamp = LocalDateTime.now();
+		this.httpStatus = httpStatus;
+		this.message = message;
 	}
 
 	public HttpStatus getHttpStatus() {

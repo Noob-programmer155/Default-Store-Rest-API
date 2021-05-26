@@ -1,11 +1,14 @@
 package com.AmrTm.StoreRestAPI.ItemService;
 
+import java.util.ConcurrentModificationException;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.function.Consumer;
 
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.ExceptionController.ItemNotFoundException;
+import com.AmrTm.StoreRestAPI.ExceptionController.ItemOverloadException;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 @JsonIgnoreProperties({"subItem"})
@@ -31,30 +34,44 @@ public class SubItems {
 //	}
 	public void modify(Item item) throws ItemNotFoundException {
 		try {
-			subItem.stream().filter(r -> r.getId() == item.getId()).forEach(new Consumer<Item>() {
-				@Override
-				public void accept(Item t) {
-					t.setCost(item.getCost());
-					t.setName(item.getName());
-				}});
+			subItem.stream().filter(r -> r.getId().equals(item.getId())).forEach(t -> {
+				t.setCost(item.getCost());
+				t.setName(item.getName());
+				t.setMount(item.getMount());
+			});
 		}
-		catch(NullPointerException k) {
+		catch(NoSuchElementException | NullPointerException k) {
 			throw new ItemNotFoundException("Item not found");
 		}
 	}
-	public void delete(Item item, int mount) throws ItemNotFoundException {
+	public void delete(String id, int mount) throws ItemNotFoundException {
 		try {
-			for(int y=0;y<mount;y++) {
-				if(subItem.contains(item)) {
-					subItem.remove(item);
-		}}}
-		catch(NullPointerException y) {
+			subItem.stream().filter(r -> r.getId().equals(id)).forEach(e -> {
+				try {
+					int mt = e.setUpMount(e.getMount(), mount);
+					if ( mt != 0)
+						e.setMount(mt);
+					else
+						subItem.remove(e);
+					
+				} catch (ItemOverloadException e1) {
+					// TODO Auto-generated catch block
+					e1.printStackTrace();
+				}
+			});
+		}
+		catch(NoSuchElementException | NullPointerException y) {
 			throw new ItemNotFoundException("Item not found");
+		}
+		catch(ConcurrentModificationException gf) {
+			// some of code
 		}
 	}
 	
-	public Item getItem(String id) {
-		return subItem.stream().filter(u -> u.getId() == id).findFirst().get();
+	public Item getItem(String id) throws ItemNotFoundException {
+		try {
+			return subItem.stream().filter(u -> u.getId().equals(id)).findFirst().get();}
+		catch(NoSuchElementException | NullPointerException ex) {throw new ItemNotFoundException("Item not found");}
 	}
 	
 	public String getSubName() {

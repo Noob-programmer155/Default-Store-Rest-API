@@ -10,19 +10,27 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.AmrTm.StoreRestAPI.Entity.Finance;
 import com.AmrTm.StoreRestAPI.Entity.Item;
+import com.AmrTm.StoreRestAPI.ExceptionController.ItemNotFoundException;
 import com.AmrTm.StoreRestAPI.FinancialService.FinancialServices;
 import com.AmrTm.StoreRestAPI.LogDataBase.Log;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
 
+import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
+
 @RestController
 @RequestMapping("/financial")
+@Api(tags="financial")
 public class FinancialRest {
 	private UserRest userRest;
 	private ItemRest itemRest;
@@ -39,35 +47,55 @@ public class FinancialRest {
 		this.logData = logData;
 	}
 	
-	@PostMapping("/save/{name}/{mount}")
-	public String sales(@RequestBody Item item, @PathVariable String name, @PathVariable int mount, 
-			@RequestAttribute(required=false) String id_user, @RequestAttribute String type){
-		financialServices.income(item.getCost().multiply(BigDecimal.valueOf(mount)));
-		if(id_user != null)
-			userRest.modifyUser(item, id_user);
-		else
+	@PostMapping("/save/in/{name}/{mount}")
+	@ApiOperation(value="Api for calculation of incoming money from sales of items", response=String.class)
+	@ApiResponses({
+			@ApiResponse(code=404, message="user not found"),
+			@ApiResponse(code=404, message="sub item not found")
+	})
+	public String sales(@ApiParam("User purchased Item") @RequestBody Item item, 
+						@ApiParam("Name sub item") @PathVariable String name, 
+						@ApiParam("Number of arrival") @PathVariable int mount, 
+						@ApiParam("Secret code user") @RequestParam(required=false) String id_user, 
+						@ApiParam("Type sub item") @RequestParam String type) throws ItemNotFoundException{
+		if(id_user != null) {
+			item.setMount(mount);
+			userRest.modifyUser(item, id_user);}
+		else 
 			log.info("anonymous customer item: "+item.getId()+" buyed");
 		itemRest.deleteItemSubItem(name, item.getId(), type, mount);
-		return "income has been saved";
+		financialServices.income(item.getCost().multiply(new BigDecimal(mount)));
+		return financialServices.getAmountMoney().toString() + item.getCost().toString();
 	}
 	
-	@PostMapping("/save/{name}/{mount}")
-	public String expense(@RequestBody Item item, @PathVariable String name, @PathVariable int mount, 
-			@RequestAttribute String type) {
-		financialServices.expenses(item.getCost().multiply(BigDecimal.valueOf(mount)));
+	@PostMapping("/save/out/{name}/{mount}")
+	@ApiOperation(value="Api for calculation of money out of purchasing items", response=String.class)
+	@ApiResponses({
+		@ApiResponse(code=404, message="sub item not found")
+	})
+	public String expense(@ApiParam("Store-bought item") @RequestBody Item item,
+						  @ApiParam("Name sub item") @PathVariable String name, 
+						  @ApiParam("Number of purchased items") @PathVariable int mount, 
+						  @ApiParam("Type sub item") @RequestParam String type) throws ItemNotFoundException {
 		itemRest.addItemSubItem(item, name, type, mount);
+		financialServices.expenses(item.getCost().multiply(BigDecimal.valueOf(mount)));
 		return "expense has been saved";
 	}
 	
 	// using report sales minimal 1 day
 	@PostMapping("/report")
+	@ApiOperation(value="Api for reporting financial status", response=ResponseEntity.class)
 	public ResponseEntity<Finance> reportFinance(){
 		Finance finance = financialServices.report();
 		return ResponseEntity.ok(finance);
 	}
 	
-	@GetMapping("/logs/{date}")
-	public List<Log> getLogs(@PathVariable String date){
-		return logData.getLog(LocalDate.parse(date));
+	@PostMapping("/logs")
+	@ApiOperation(value="Api to get log data from sale or purchase item", response=List.class)
+	@ApiResponses({
+		@ApiResponse(code=404, message="date not saved")
+	})
+	public List<Log> getLogs(@ApiParam("date for searching log") @RequestBody Log date) {
+		return logData.getLog(date.getDate());
 	}
 }

@@ -20,18 +20,18 @@ public class FinancialServices {
 	private LogData logData;
 	
 	private static Logger log = LogManager.getLogger(FinancialServices.class);
-	private BigDecimal amountMoney = new BigDecimal(0.0);
-	private BigDecimal purchase = new BigDecimal(0.0);
-	private BigDecimal income = new BigDecimal(0.0);
+	private BigDecimal amountMoney = BigDecimal.ZERO;
+	private BigDecimal purchase = BigDecimal.ZERO;
+	private BigDecimal income = BigDecimal.ZERO;
 	
 	private HashMap<LocalDate,Finance> dataFinance = new HashMap<>();
 	
 	public void income(BigDecimal in) {
-		income.add(in);
+		income = income.add(in);
 	}
 	
 	public void expenses(BigDecimal expense) {
-		purchase.add(expense);
+		purchase = purchase.add(expense);
 	}
 	
 	public String profitNLoss() {
@@ -52,13 +52,13 @@ public class FinancialServices {
 		dataFinance.put(LocalDate.now(), finance);
 		logData.saveLog("Data Financial: income=> "+currencyConverter(income, "USD")+" | expense=> "+currencyConverter(purchase, "USD")+" | information=== "+profitNLoss());
 		log.info("Data Financial for ["+LocalDate.now()+"] success to saved | information=== "+profitNLoss());
-		income.multiply(BigDecimal.ZERO);
-		purchase.multiply(BigDecimal.ZERO);
+		income = income.multiply(BigDecimal.ZERO);
+		purchase = purchase.multiply(BigDecimal.ZERO);
 		return finance;
 	}
 	
 	public BigDecimal saveAmountMoney() {
-		return amountMoney.add(income.add(purchase.negate()));
+		return amountMoney = amountMoney.add(income.add(purchase.negate()));
 	}
 	
 	public BigDecimal getAmountMoney() {
@@ -75,5 +75,9 @@ public class FinancialServices {
 
 	public void setDataFinance(HashMap<LocalDate, Finance> dataFinance) {
 		this.dataFinance = dataFinance;
+	}
+
+	public void setAmountMoney(BigDecimal amountMoney) {
+		this.amountMoney = amountMoney;
 	}
 }

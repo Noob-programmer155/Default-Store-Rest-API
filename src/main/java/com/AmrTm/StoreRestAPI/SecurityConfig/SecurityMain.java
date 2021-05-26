@@ -6,6 +6,7 @@ import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 
 @Configuration
 @EnableWebSecurity
@@ -13,15 +14,22 @@ public class SecurityMain extends WebSecurityConfigurerAdapter{
 
 	@Override
 	protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder()).withUser("Admin").password("Admin").roles("ADMIN","STAFF");
+		auth.inMemoryAuthentication().passwordEncoder(new BCryptPasswordEncoder())
+			.withUser("Admin").password(password("Admin")).roles("ADMIN","STAFF");
 	}
 
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
-		http.authorizeRequests().antMatchers("/financial/**","/users/**").hasAnyRole("ADMIN")
-			.antMatchers("/items").hasAnyRole("STAFF")
-			.anyRequest().denyAll()
+		http.authorizeRequests().antMatchers("/financial/**","/users/**","/actuator/**").hasAnyRole("ADMIN")
+			.antMatchers("/items/**").hasAnyRole("STAFF")
+			.anyRequest().permitAll()
 			.and()
-			.httpBasic();
+			.httpBasic()
+			.and()
+			.csrf().disable();
+	}
+	
+	private String password(String pass) {
+		return new BCryptPasswordEncoder().encode(pass);
 	}
 }

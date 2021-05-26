@@ -21,4 +21,10 @@ public class Log {
 	public String getLogs() {
 		return logs;
 	}
+	public void setDate(LocalDate date) {
+		this.date = date;
+	}
+	public void setLogs(String logs) {
+		this.logs = logs;
+	}
 }
