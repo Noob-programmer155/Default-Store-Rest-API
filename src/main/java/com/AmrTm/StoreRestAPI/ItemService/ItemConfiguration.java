@@ -2,13 +2,7 @@ package com.AmrTm.StoreRestAPI.ItemService;
 
 import java.util.LinkedList;
 import java.util.List;
-<<<<<<< HEAD
-import java.util.function.Consumer;
-import java.util.function.Predicate;
-import java.util.stream.Collectors;
-=======
 import java.util.NoSuchElementException;
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -17,10 +11,6 @@ import org.springframework.stereotype.Service;
 
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.ExceptionController.CollisionSubItemException;
-<<<<<<< HEAD
-=======
-import com.AmrTm.StoreRestAPI.ExceptionController.ItemAlreadyExistException;
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 import com.AmrTm.StoreRestAPI.ExceptionController.ItemNotFoundException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
 
@@ -36,18 +26,6 @@ public class ItemConfiguration {
 //	public void addItem(Item item) {
 //		items.add(item);
 //	}
-<<<<<<< HEAD
-	public void addSubItems(SubItems items) {
-		if(subItems.stream().anyMatch(new Predicate<SubItems>() {
-			@Override
-			public boolean test(SubItems t){
-				if(t.getItemType() == items.getItemType() && t.getSubName() == items.getSubName()) {
-					return true;
-				}
-				return false;
-			}})) {
-			log.error("Adding sub item: "+items.getSubName()+" didn`t succesfully",new CollisionSubItemException("find duplicate sub item with same name and type item"));
-=======
 	public void addSubItems(SubItems items) throws CollisionSubItemException {
 		if(subItems.stream().anyMatch(t -> {
 			if(t.getItemType().equals(items.getItemType()) && t.getSubName().equals(items.getSubName())) {
@@ -57,7 +35,6 @@ public class ItemConfiguration {
 		})) {
 			log.error("Adding sub item: "+items.getSubName()+" didn`t succesfully",new CollisionSubItemException("find duplicate sub item with same name and type item"));
 			throw new CollisionSubItemException("find duplicate sub item with same name and type item");
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 		}
 		else {
 			subItems.add(items);
@@ -65,25 +42,7 @@ public class ItemConfiguration {
 			log.info("Adding sub item: "+items.getSubName()+" succesfully");
 		}
 	}
-<<<<<<< HEAD
-	public void addItemSubItems(SubItems subitem, Item item) {
-		try {
-		subItems.stream().filter(new Predicate<SubItems>() {
-			@Override
-			public boolean test(SubItems t) {
-				if(t.getItemType() == subitem.getItemType() && t.getSubName() == subitem.getSubName()) {
-					return true;
-				}
-				return false;
-			}}).forEach(w -> w.addItem(item));
-			logData.saveLog("Adding item: "+item.getName()+" from sub item: "+subitem.getSubName());
-			log.info("Adding sub item: "+item.getName()+" from sub item: "+subitem.getSubName()+" succesfully");
-		}
-		catch(NullPointerException e) {
-			log.error("Adding sub item: "+item.getName()+" from sub item: "+subitem.getSubName()+" didn`t succesfully",new ItemNotFoundException("sub item not found"));
-		}
-	}
-=======
+
 	public void addItemSubItems(SubItems subitem, Item item, int mount) throws ItemNotFoundException {
 		try {
 		subItems.stream().filter(t -> {
@@ -109,7 +68,6 @@ public class ItemConfiguration {
 			item.setMount(mount);
 			r.addItem(item);}
 	}
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 //	public void modifyItem(Item item, String name, Long cost) throws ItemNotFoundException {
 //		if(items.contains(item)) {
 //			items.stream().filter(r -> r.getId() == item.getId()).forEach(new Consumer<Item>() {
@@ -123,33 +81,6 @@ public class ItemConfiguration {
 //			throw new ItemNotFoundException("Item not found");
 //		}
 //	}
-<<<<<<< HEAD
-	public void modifySubItem(SubItems subItem, String replace) {
-		try {
-			subItems.stream().filter(new Predicate<SubItems>() {
-				@Override
-				public boolean test(SubItems t) {
-					if(t.getSubName() == subItem.getSubName() && t.getItemType() == subItem.getItemType())
-						return true;
-					return false;
-				}}).forEach(u -> u.setSubName(replace));
-			logData.saveLog("Rename sub item: "+subItem.getSubName()+" to: "+replace);
-			log.info("Rename sub item: "+subItem.getSubName()+" to: "+replace+" succesfully");
-		}
-		catch(NullPointerException u) {
-			log.error("Rename sub item: "+subItem.getSubName()+" to: "+replace+" didn`t succesfully", new NullPointerException("Sub item not found"));
-		}
-	}
-	public void modifyItemSubItem(SubItems subItem, Item item) {
-		try {
-		subItems.stream().filter(new Predicate<SubItems>() {
-			@Override
-			public boolean test(SubItems t) {
-				if(t.getSubName() == subItem.getSubName() && t.getItemType() == subItem.getItemType())
-					return true;
-				return false;
-			}}).forEach(u -> {
-=======
 	public void modifySubItem(SubItems subItem, String replace, ItemType tipeR) throws ItemNotFoundException {
 		try {
 			subItems.stream().filter(t -> {if(t.getSubName().equals(subItem.getSubName()) && t.getItemType().equals(subItem.getItemType()))
@@ -173,27 +104,18 @@ public class ItemConfiguration {
 										{return true;}
 										return false;})
 			.forEach(u -> {
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 			try {
 				u.modify(item);
 				logData.saveLog("Modify item: "+item.getId()+" from sub item: "+subItem.getSubName());
 				log.info("Modify item: "+item.getId()+" from sub item: "+subItem.getSubName()+" succesfully");
 			} catch (ItemNotFoundException e) {
-<<<<<<< HEAD
 				// TODO Auto-generated catch block
-				e.printStackTrace();
-			}
-		});}
-		catch(NullPointerException u) {
-			log.error("Modify item: "+item.getId()+" from sub item: "+subItem.getSubName()+" didn`t succesfully",new NullPointerException("Sub item not found"));
-=======
 				e.printStackTrace();
 			}
 		});}
 		catch(NoSuchElementException | NullPointerException u) {
 			log.error("Modify item: "+item.getId()+" from sub item: "+subItem.getSubName()+" didn`t succesfully",new ItemNotFoundException("sub item not found"));
 			throw new ItemNotFoundException("sub item not found");
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 		}
 	}
 //	public void delete(Item item) throws ItemNotFoundException {
@@ -211,37 +133,8 @@ public class ItemConfiguration {
 			logData.saveLog("Remove item: "+subItem.getSubName());
 			log.info("Remove sub item: "+subItem.getSubName()+" succesfully");
 		}
-<<<<<<< HEAD
 		catch(NullPointerException u) {
 			log.error("Remove sub item: "+subItem.getSubName()+" didn`t succesfully",new NullPointerException("Sub item not found"));
-		}
-	}
-	public void deleteItemSubItem(SubItems subItem, Item item) {
-		try {
-			subItems.stream().filter(new Predicate<SubItems>() {
-				@Override
-				public boolean test(SubItems t) {
-					if(t.getItemType()==subItem.getItemType() && t.getSubName() == subItem.getSubName())
-						return true;
-					return false;
-				}}).forEach(y -> {
-				try {
-					y.delete(item);
-					logData.saveLog("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName());
-					log.info("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName()+" succesfully");
-				} catch (ItemNotFoundException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-			});
-		}catch(NullPointerException i) {
-			log.error("Remove item: "+subItem.getSubName()+" from sub item: "+subItem.getSubName()+" didn`t succesfully", new NullPointerException("Sub item not found"));
-		}
-	}
-=======
-		catch(NoSuchElementException | NullPointerException u) {
-			log.error("Remove sub item: "+subItem.getSubName()+" didn`t succesfully",new ItemNotFoundException("sub item not found"));
-			throw new ItemNotFoundException("sub item not found");
 		}
 	}
 	public void deleteItemSubItem(SubItems subItem, Item item, int mount) throws ItemNotFoundException {
@@ -280,5 +173,4 @@ public class ItemConfiguration {
 	public Item getItemSubItem(SubItems subItem, String id) throws ItemNotFoundException {
 		return subItem.getItem(id);
 	}
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 }

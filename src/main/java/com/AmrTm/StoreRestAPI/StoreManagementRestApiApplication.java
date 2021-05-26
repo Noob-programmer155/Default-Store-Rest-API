@@ -1,9 +1,5 @@
 package com.AmrTm.StoreRestAPI;
 
-<<<<<<< HEAD
-import org.springframework.boot.SpringApplication;
-import org.springframework.boot.autoconfigure.SpringBootApplication;
-=======
 import java.math.BigDecimal;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +14,11 @@ import com.AmrTm.StoreRestAPI.ItemService.ItemConfiguration;
 import com.AmrTm.StoreRestAPI.ItemService.ItemType;
 import com.AmrTm.StoreRestAPI.ItemService.SubItems;
 import com.AmrTm.StoreRestAPI.UserService.UserConfiguration;
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
+
 /**
  * @author Amar
  * */
 @SpringBootApplication
-<<<<<<< HEAD
-public class StoreManagementRestApiApplication {
-=======
 public class StoreManagementRestApiApplication implements CommandLineRunner{
 	
 	@Autowired
@@ -34,14 +27,11 @@ public class StoreManagementRestApiApplication implements CommandLineRunner{
 	private UserConfiguration userConfiguration;
 	@Autowired
 	private FinancialServices financialServices;
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 
 	public static void main(String[] args) {
 		SpringApplication.run(StoreManagementRestApiApplication.class, args);
 	}
 
-<<<<<<< HEAD
-=======
 	@Override
 	public void run(String... args) throws Exception {
 		itemConfiguration.addSubItems(new SubItems("pasta gigi",ItemType.CONSUMPTIONITEMS));
@@ -57,6 +47,4 @@ public class StoreManagementRestApiApplication implements CommandLineRunner{
 		
 		financialServices.setAmountMoney(BigDecimal.valueOf(5500000));
 	}
-
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 }

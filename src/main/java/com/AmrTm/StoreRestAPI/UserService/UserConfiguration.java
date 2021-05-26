@@ -1,10 +1,7 @@
 package com.AmrTm.StoreRestAPI.UserService;
 
 import java.util.NavigableSet;
-<<<<<<< HEAD
-=======
 import java.util.NoSuchElementException;
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 import java.util.TreeSet;
 
 import org.apache.logging.log4j.LogManager;
@@ -13,10 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
-<<<<<<< HEAD
-=======
 import com.AmrTm.StoreRestAPI.Entity.Item;
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 import com.AmrTm.StoreRestAPI.Entity.User;
 import com.AmrTm.StoreRestAPI.ExceptionController.UsernameAlreadyExistException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
@@ -31,18 +25,6 @@ public class UserConfiguration {
 	@Autowired
 	private LogData logData;
 	
-<<<<<<< HEAD
-	private NavigableSet<User> users = new TreeSet<User>();
-	private static Logger log = LogManager.getLogger(UserConfiguration.class);
-	public void save(User user) {
-		try {
-			users.add(user);
-			logData.saveLog("add user "+user.getCodeUser());
-			log.info("add user"+user.getCodeUser()+" succesfully");
-		}
-		catch(IllegalArgumentException e) {
-			log.error("User has been exist", new UsernameAlreadyExistException("User has been exist"));
-=======
 	private NavigableSet<User> users = new TreeSet<User>(new UserComparator());
 	private static Logger log = LogManager.getLogger(UserConfiguration.class);
 	public void save(User user) throws UsernameAlreadyExistException {
@@ -54,22 +36,14 @@ public class UserConfiguration {
 		catch(IllegalArgumentException e) {
 			log.error("User has been exist", new UsernameAlreadyExistException("User already exist"));
 			throw new UsernameAlreadyExistException("User already exist");
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 		}
 	}
 	public void modifyCountIn(User user) {
 		try {
-<<<<<<< HEAD
 		if(users.contains(user)) {
-			users.stream().filter(e -> e.getCodeUser() == user.getCodeUser()).forEach(e -> e.setCountInStore(e.getCountInStore()+1));
-			log.info("modify user "+user.getCodeUser()+" with coint in store: "+user.getCountInStore()+" succesfully");
-		}}
-		catch(NullPointerException e) {
-			log.error("modify user "+user.getCodeUser()+" with coint in store: "+user.getCountInStore()+" didn`t succesfully",new UsernameNotFoundException("Username not found"));
-=======
 			users.stream().filter(e -> e.getCodeUser().equals(user.getCodeUser())).forEach(e -> e.setCountInStore(e.getCountInStore()+1));
 			log.info("modify user "+user.getCodeUser()+" with count in store: "+user.getCountInStore()+" succesfully");
-		}
+		}}
 		catch(NoSuchElementException | NullPointerException e) {
 			log.error("modify user "+user.getCodeUser()+" with count in store: "+user.getCountInStore()+" didn`t succesfully",new UsernameNotFoundException("User not found"));
 			throw new UsernameNotFoundException("User not found");
@@ -83,7 +57,6 @@ public class UserConfiguration {
 		catch(NoSuchElementException | NullPointerException e) {
 			log.error("modify user "+user.getCodeUser()+" with item purchased in store: "+item.getId()+" didn`t succesfully",new UsernameNotFoundException("User not found"));
 			throw new UsernameNotFoundException("User not found");
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 		}
 	}
 	public void delete(User user) {
@@ -93,28 +66,19 @@ public class UserConfiguration {
 			logData.saveLog("remove user "+user.getCodeUser());
 			log.info("remove user "+user.getCodeUser()+" succesfully");
 		}}
-<<<<<<< HEAD
-		catch(NullPointerException e) {
-			log.info("remove user "+user.getCodeUser()+" succesfully", new UsernameNotFoundException("Username not found"));
-=======
 		catch(NoSuchElementException | NullPointerException e) {
-			log.info("remove user "+user.getCodeUser()+" succesfully", new UsernameNotFoundException("User not found"));
+			log.info("remove user "+user.getCodeUser()+" didn`t succesfully", new UsernameNotFoundException("User not found"));
 			throw new UsernameNotFoundException("User not found");
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 		}
 	}
 	public NavigableSet<User> getUsers() {
 		return users;
 	}
 	public User getUserByIdCode(String codeId) throws NullPointerException{
-<<<<<<< HEAD
-		return users.stream().filter(p -> p.getCodeUser() == codeId).findFirst().get();
-=======
 		try {
 			return users.stream().filter(p -> p.getCodeUser().equals(codeId)).findFirst().get();}
 		catch(NoSuchElementException | NullPointerException ex) {
 			throw new NullPointerException("User not found");
 		}
->>>>>>> a801fe1aca50ff6ebbe8fbba6a77bf8afe0ec7cb
 	}
 }
