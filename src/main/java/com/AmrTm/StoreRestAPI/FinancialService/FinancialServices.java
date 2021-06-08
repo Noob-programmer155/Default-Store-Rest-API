@@ -57,6 +57,10 @@ public class FinancialServices {
 		return finance;
 	}
 	
+	public BigDecimal getCostDiscon(double diskon, BigDecimal harga) {
+		return new BigDecimal(100-diskon).multiply(harga).divide(new BigDecimal(100)).abs();
+	}
+	
 	public BigDecimal saveAmountMoney() {
 		return amountMoney = amountMoney.add(income.add(purchase.negate()));
 	}

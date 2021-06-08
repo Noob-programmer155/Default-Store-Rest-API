@@ -57,14 +57,15 @@ public class FinancialRest {
 						@ApiParam("Name sub item") @PathVariable String name, 
 						@ApiParam("Number of arrival") @PathVariable int mount, 
 						@ApiParam("Secret code user") @RequestParam(required=false) String id_user, 
-						@ApiParam("Type sub item") @RequestParam String type) throws ItemNotFoundException{
+						@ApiParam("Type sub item") @RequestParam String type,
+						@ApiParam("Discon for this item") @RequestParam double discon) throws ItemNotFoundException{
 		if(id_user != null) {
 			item.setMount(mount);
 			userRest.modifyUser(item, id_user);}
 		else 
 			log.info("anonymous customer item: "+item.getId()+" buyed");
 		itemRest.deleteItemSubItem(name, item.getId(), type, mount);
-		financialServices.income(item.getCost().multiply(new BigDecimal(mount)));
+		financialServices.income(financialServices.getCostDiscon(discon, item.getCost()).multiply(new BigDecimal(mount)));
 		return financialServices.getAmountMoney().toString() + item.getCost().toString();
 	}
 	
@@ -76,9 +77,10 @@ public class FinancialRest {
 	public String expense(@ApiParam("Store-bought item") @RequestBody Item item,
 						  @ApiParam("Name sub item") @PathVariable String name, 
 						  @ApiParam("Number of purchased items") @PathVariable int mount, 
-						  @ApiParam("Type sub item") @RequestParam String type) throws ItemNotFoundException {
+						  @ApiParam("Type sub item") @RequestParam String type,
+						  @ApiParam("Discon for all expense") @RequestParam double discon) throws ItemNotFoundException {
 		itemRest.addItemSubItem(item, name, type, mount);
-		financialServices.expenses(item.getCost().multiply(BigDecimal.valueOf(mount)));
+		financialServices.expenses(financialServices.getCostDiscon(discon, item.getCost().multiply(new BigDecimal(mount))));
 		return "expense has been saved";
 	}
 	
