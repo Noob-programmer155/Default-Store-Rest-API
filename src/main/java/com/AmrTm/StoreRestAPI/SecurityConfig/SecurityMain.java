@@ -23,7 +23,7 @@ public class SecurityMain extends WebSecurityConfigurerAdapter{
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests().antMatchers("/financial/**","/users/**","/actuator/**").hasAnyRole("ADMIN")
 			.antMatchers("/items/**").hasAnyRole("STAFF")
-			.anyRequest().permitAll()
+			.anyRequest().authenticated()
 			.and()
 			.httpBasic();
 //			.and()
