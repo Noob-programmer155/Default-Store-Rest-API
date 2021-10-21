@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.Configuration;
+package com.AmrTm.StoreRestAPI.Service;
 
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
@@ -14,7 +14,6 @@ import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
 import com.AmrTm.StoreRestAPI.Exception.UsernameAlreadyExistException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
-import com.AmrTm.StoreRestAPI.Service.UserComparator;
 
 /**
  * User service configuration
@@ -22,12 +21,12 @@ import com.AmrTm.StoreRestAPI.Service.UserComparator;
  * */
 
 @Service
-public class UserConfiguration {
+public class UserServeices {
 	@Autowired
 	private LogData logData;
 	
 	private NavigableSet<User> users = new TreeSet<User>(new UserComparator());
-	private static Logger log = LogManager.getLogger(UserConfiguration.class);
+	private static Logger log = LogManager.getLogger(UserServeices.class);
 	public void save(User user) throws UsernameAlreadyExistException {
 		try {
 			users.add(user);

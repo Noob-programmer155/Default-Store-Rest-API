@@ -7,13 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import com.AmrTm.StoreRestAPI.Configuration.ItemConfiguration;
-import com.AmrTm.StoreRestAPI.Configuration.UserConfiguration;
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
 import com.AmrTm.StoreRestAPI.Service.FinancialServices;
+import com.AmrTm.StoreRestAPI.Service.ItemServices;
 import com.AmrTm.StoreRestAPI.Service.ItemType;
 import com.AmrTm.StoreRestAPI.Service.SubItems;
+import com.AmrTm.StoreRestAPI.Service.UserServeices;
 
 /**
  * @author Amar
@@ -22,9 +22,9 @@ import com.AmrTm.StoreRestAPI.Service.SubItems;
 public class StoreManagementRestApiApplication implements CommandLineRunner{
 	
 	@Autowired
-	private ItemConfiguration itemConfiguration;
+	private ItemServices itemConfiguration;
 	@Autowired
-	private UserConfiguration userConfiguration;
+	private UserServeices userConfiguration;
 	@Autowired
 	private FinancialServices financialServices;
 

@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.AmrTm.StoreRestAPI.Configuration.ItemConfiguration;
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Exception.CollisionSubItemException;
 import com.AmrTm.StoreRestAPI.Exception.ItemNotFoundException;
+import com.AmrTm.StoreRestAPI.Service.ItemServices;
 import com.AmrTm.StoreRestAPI.Service.ItemType;
 import com.AmrTm.StoreRestAPI.Service.SubItems;
 
@@ -36,7 +36,7 @@ import io.swagger.annotations.ApiResponses;
 @Api(tags="item")
 public class ItemRest {
 	@Autowired
-	private ItemConfiguration itemConfiguration;
+	private ItemServices itemConfiguration;
 	
 	@GetMapping("/subitems")
 	@ApiOperation(value="Api for get all sub items",response=List.class)

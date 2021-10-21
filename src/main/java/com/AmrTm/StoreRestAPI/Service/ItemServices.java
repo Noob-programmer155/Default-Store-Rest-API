@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.Configuration;
+package com.AmrTm.StoreRestAPI.Service;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -13,15 +13,13 @@ import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Exception.CollisionSubItemException;
 import com.AmrTm.StoreRestAPI.Exception.ItemNotFoundException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
-import com.AmrTm.StoreRestAPI.Service.ItemType;
-import com.AmrTm.StoreRestAPI.Service.SubItems;
 
 @Service
-public class ItemConfiguration {
+public class ItemServices {
 	@Autowired
 	private LogData logData;
 	
-	private static Logger log = LogManager.getLogger(ItemConfiguration.class);
+	private static Logger log = LogManager.getLogger(ItemServices.class);
 //	private List<Item> items = new LinkedList<Item>();
 	private List<SubItems> subItems = new LinkedList<SubItems>();
 	
