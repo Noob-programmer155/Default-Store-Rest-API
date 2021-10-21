@@ -21,7 +21,7 @@ import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
 import com.AmrTm.StoreRestAPI.Exception.UsernameAlreadyExistException;
-import com.AmrTm.StoreRestAPI.Service.UserServeices;
+import com.AmrTm.StoreRestAPI.Service.UserServices;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -35,7 +35,7 @@ import io.swagger.annotations.ApiResponses;
 public class UserRest {
 	
 	@Autowired
-	private UserServeices userConfiguration;
+	private UserServices userConfiguration;
 	
 	@GetMapping("/all")
 	@ApiOperation(value="Api for get all data user", response=NavigableSet.class)

@@ -21,12 +21,12 @@ import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
  * */
 
 @Service
-public class UserServeices {
+public class UserServices {
 	@Autowired
 	private LogData logData;
 	
 	private NavigableSet<User> users = new TreeSet<User>(new UserComparator());
-	private static Logger log = LogManager.getLogger(UserServeices.class);
+	private static Logger log = LogManager.getLogger(UserServices.class);
 	public void save(User user) throws UsernameAlreadyExistException {
 		try {
 			users.add(user);

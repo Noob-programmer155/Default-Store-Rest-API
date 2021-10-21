@@ -13,7 +13,7 @@ import com.AmrTm.StoreRestAPI.Service.FinancialServices;
 import com.AmrTm.StoreRestAPI.Service.ItemServices;
 import com.AmrTm.StoreRestAPI.Service.ItemType;
 import com.AmrTm.StoreRestAPI.Service.SubItems;
-import com.AmrTm.StoreRestAPI.Service.UserServeices;
+import com.AmrTm.StoreRestAPI.Service.UserServices;
 
 /**
  * @author Amar
@@ -24,7 +24,7 @@ public class StoreManagementRestApiApplication implements CommandLineRunner{
 	@Autowired
 	private ItemServices itemConfiguration;
 	@Autowired
-	private UserServeices userConfiguration;
+	private UserServices userConfiguration;
 	@Autowired
 	private FinancialServices financialServices;
 
