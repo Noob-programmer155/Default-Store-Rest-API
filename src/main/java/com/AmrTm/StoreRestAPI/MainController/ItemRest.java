@@ -18,12 +18,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.AmrTm.StoreRestAPI.Configuration.ItemConfiguration;
 import com.AmrTm.StoreRestAPI.Entity.Item;
-import com.AmrTm.StoreRestAPI.ExceptionController.CollisionSubItemException;
-import com.AmrTm.StoreRestAPI.ExceptionController.ItemNotFoundException;
-import com.AmrTm.StoreRestAPI.ItemService.ItemConfiguration;
-import com.AmrTm.StoreRestAPI.ItemService.ItemType;
-import com.AmrTm.StoreRestAPI.ItemService.SubItems;
+import com.AmrTm.StoreRestAPI.Exception.CollisionSubItemException;
+import com.AmrTm.StoreRestAPI.Exception.ItemNotFoundException;
+import com.AmrTm.StoreRestAPI.Service.ItemType;
+import com.AmrTm.StoreRestAPI.Service.SubItems;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.ExceptionController;
+package com.AmrTm.StoreRestAPI.Exception;
 
 import java.util.NoSuchElementException;
 

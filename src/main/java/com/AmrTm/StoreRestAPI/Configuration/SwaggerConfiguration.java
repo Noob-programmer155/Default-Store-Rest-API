@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.SwaggerConfig;
+package com.AmrTm.StoreRestAPI.Configuration;
 
 import java.util.List;
 import java.util.function.Predicate;

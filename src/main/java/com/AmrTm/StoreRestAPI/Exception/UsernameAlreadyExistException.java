@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.ExceptionController;
+package com.AmrTm.StoreRestAPI.Exception;
 
 public class UsernameAlreadyExistException extends Exception {
 	public UsernameAlreadyExistException(String message) {

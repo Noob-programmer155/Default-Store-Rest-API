@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.ItemService;
+package com.AmrTm.StoreRestAPI.Service;
 
 public enum ItemType {
 	CONSUMPTIONITEMS,

@@ -7,13 +7,13 @@ import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
+import com.AmrTm.StoreRestAPI.Configuration.ItemConfiguration;
+import com.AmrTm.StoreRestAPI.Configuration.UserConfiguration;
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
-import com.AmrTm.StoreRestAPI.FinancialService.FinancialServices;
-import com.AmrTm.StoreRestAPI.ItemService.ItemConfiguration;
-import com.AmrTm.StoreRestAPI.ItemService.ItemType;
-import com.AmrTm.StoreRestAPI.ItemService.SubItems;
-import com.AmrTm.StoreRestAPI.UserService.UserConfiguration;
+import com.AmrTm.StoreRestAPI.Service.FinancialServices;
+import com.AmrTm.StoreRestAPI.Service.ItemType;
+import com.AmrTm.StoreRestAPI.Service.SubItems;
 
 /**
  * @author Amar

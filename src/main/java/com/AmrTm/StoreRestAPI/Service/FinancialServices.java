@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.FinancialService;
+package com.AmrTm.StoreRestAPI.Service;
 
 import java.math.BigDecimal;
 import java.time.LocalDate;

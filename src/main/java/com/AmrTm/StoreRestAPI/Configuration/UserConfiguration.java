@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.UserService;
+package com.AmrTm.StoreRestAPI.Configuration;
 
 import java.util.NavigableSet;
 import java.util.NoSuchElementException;
@@ -12,8 +12,9 @@ import org.springframework.stereotype.Service;
 
 import com.AmrTm.StoreRestAPI.Entity.Item;
 import com.AmrTm.StoreRestAPI.Entity.User;
-import com.AmrTm.StoreRestAPI.ExceptionController.UsernameAlreadyExistException;
+import com.AmrTm.StoreRestAPI.Exception.UsernameAlreadyExistException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
+import com.AmrTm.StoreRestAPI.Service.UserComparator;
 
 /**
  * User service configuration

@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.UserService;
+package com.AmrTm.StoreRestAPI.Service;
 
 import java.util.Comparator;
 

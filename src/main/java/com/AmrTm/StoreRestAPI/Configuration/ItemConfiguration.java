@@ -1,4 +1,4 @@
-package com.AmrTm.StoreRestAPI.ItemService;
+package com.AmrTm.StoreRestAPI.Configuration;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -10,9 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.AmrTm.StoreRestAPI.Entity.Item;
-import com.AmrTm.StoreRestAPI.ExceptionController.CollisionSubItemException;
-import com.AmrTm.StoreRestAPI.ExceptionController.ItemNotFoundException;
+import com.AmrTm.StoreRestAPI.Exception.CollisionSubItemException;
+import com.AmrTm.StoreRestAPI.Exception.ItemNotFoundException;
 import com.AmrTm.StoreRestAPI.LogDataBase.LogData;
+import com.AmrTm.StoreRestAPI.Service.ItemType;
+import com.AmrTm.StoreRestAPI.Service.SubItems;
 
 @Service
 public class ItemConfiguration {

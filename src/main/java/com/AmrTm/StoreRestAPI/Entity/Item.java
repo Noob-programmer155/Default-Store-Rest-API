@@ -3,7 +3,7 @@ package com.AmrTm.StoreRestAPI.Entity;
 import java.util.UUID;
 import java.math.BigDecimal;
 
-import com.AmrTm.StoreRestAPI.ExceptionController.ItemOverloadException;
+import com.AmrTm.StoreRestAPI.Exception.ItemOverloadException;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import io.swagger.annotations.ApiModel;
