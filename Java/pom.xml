@@ -11,7 +11,7 @@
 	<groupId>com.AmrTm.boot</groupId>
 	<artifactId>store-rest-api</artifactId>
 	<version>1.0</version>
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>Store-Management-Rest-API</name>
 	<description>Project Rest API Service for Store Management</description>
 	<properties>
@@ -86,7 +86,7 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-tomcat</artifactId>
-			<scope>provided</scope>
+			<!--<scope>provided</scope>-->
 		</dependency>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -96,6 +96,7 @@
 	</dependencies>
 
 	<build>
+		<finalName>StoreRestAPIv1</finalName>
 		<plugins>
 			<plugin>
 				<groupId>org.springframework.boot</groupId>
